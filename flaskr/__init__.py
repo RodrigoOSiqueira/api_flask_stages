@@ -26,7 +26,7 @@ def create_app(test_config=None):
 
     from . import db
     db.init_app(app)
-    from .curso import bp_curso
+    from .views import bp_curso
     app.register_blueprint(bp_curso)
     # a simple page that says hello
     @app.route('/hello')
