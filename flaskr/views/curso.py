@@ -45,3 +45,9 @@ def deleta_curso(curso_id):
         return 'Curso não existente', 404
 
     return Curso().deleta_curso(curso_id), 200
+
+@bp_turma.route('/', methods=['GET'])
+def lista_cursos():
+    cursos = Turma().lista_cursos(limit, offset)
+
+    return CursoSerializer().serialize(cursos)

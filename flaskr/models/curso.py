@@ -45,3 +45,10 @@ class Curso:
         db.commit()
 
         return 'Curso deletado'
+
+    @staticmethod
+    def lista_cursos():
+        db = get_db()
+        lista_cursos = db.execute(f'SELECT * FROM Curso').fetchall()
+
+        return lista_cursos
