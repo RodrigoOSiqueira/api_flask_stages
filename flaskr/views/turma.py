@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 
 from flaskr.models import Turma, Curso, Matricula
-from flaskr.serializers import TurmaSerializer
+from flaskr.serializers import TurmaSerializer, MatriculaSerializer
 
 bp_turma = Blueprint('turma', __name__, url_prefix='/turma')
 
@@ -54,12 +54,18 @@ def deleta_turma(turma_id):
 def cria_matricula(turma_id):
     dados = request.json
 
-    if not dados.get('nome_aluno'):
+    if not dados.get('nome'):
         return 'Dados incompletos', 400
 
     if not Turma().pega_turma_id(turma_id):
         return 'Turma não existe!', 404
 
-    matricula = Matricula.cria_matricula(dados)
+    matricula = Matricula.cria_matricula(turma_id, dados.get('nome'))
 
     return matricula
+
+@bp_turma.route('/<int:turma_id>/matriculas', methods=['GET'])
+def matriculas_turma(turma_id):
+    matriculas = Matricula.matriculas_turma(turma_id)
+
+    return MatriculaSerializer().serialize(matriculas)
