@@ -47,8 +47,10 @@ class Curso:
         return 'Curso deletado'
 
     @staticmethod
-    def lista_cursos():
+    def lista_cursos(limit, offset):
         db = get_db()
-        lista_cursos = db.execute(f'SELECT * FROM Curso').fetchall()
-
+        lista_cursos = db.execute(
+            f'SELECT * FROM Curso LIMIT {offset}, {limit}'
+        ).fetchall()
+        
         return lista_cursos

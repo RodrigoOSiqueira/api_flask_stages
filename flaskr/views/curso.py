@@ -48,6 +48,12 @@ def deleta_curso(curso_id):
 
 @bp_curso.route('/', methods=['GET'])
 def lista_cursos():
-    cursos = Turma.lista_cursos()
+    query_string = request.args
+    page = query_string.get('page', type=int, default=1)
+    per_page = query_string.get('per_page', type=int, default=10)
+
+    limit = per_page
+    offset = (page - 1)*per_page
+    cursos = Curso().lista_cursos(limit, offset)
 
     return CursoSerializer().serialize(cursos)
